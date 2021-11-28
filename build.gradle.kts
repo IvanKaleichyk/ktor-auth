@@ -11,7 +11,7 @@ plugins {
 group = "com.kaleichyk"
 version = "0.0.1"
 application {
-    mainClass.set("com.kaleichyk.ApplicationKt")
+    mainClass.set("com.kaleichyk.ApplicationKt.module")
 }
 
 repositories {

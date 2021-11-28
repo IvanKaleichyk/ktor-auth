@@ -1,13 +1,15 @@
 package com.kaleichyk
 
-import io.ktor.server.engine.*
+import com.kaleichyk.plugins.configureRouting
+import com.kaleichyk.plugins.configureSecurity
+import com.kaleichyk.plugins.configureSerialization
+import io.ktor.application.*
 import io.ktor.server.netty.*
-import com.kaleichyk.plugins.*
 
-fun main() {
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
-        configureRouting()
-        configureSecurity()
-        configureSerialization()
-    }.start(wait = true)
+fun main(args: Array<String>) = EngineMain.main(args)
+
+fun Application.module() {
+    configureRouting()
+    configureSecurity()
+    configureSerialization()
 }
