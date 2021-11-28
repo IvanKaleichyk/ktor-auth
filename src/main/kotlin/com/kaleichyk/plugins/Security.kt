@@ -1,5 +1,9 @@
 package com.kaleichyk.plugins
 
+import com.kaleichyk.utils.extensions.algorithm
+import com.kaleichyk.utils.extensions.issuer
+import com.kaleichyk.utils.extensions.realm
+import com.kaleichyk.utils.extensions.tokenValidTime
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -10,8 +14,10 @@ fun Application.configureSecurity() {
         route("conf") {
             get {
                 val conf = mapOf(
-                    "secret" to environment.config.property("jwt.secret").getString(),
-                    "issuer" to environment.config.property("jwt.issuer").getString(),
+                    "issuer" to environment.config.issuer,
+                    "realm" to environment.config.realm,
+                    "tokenValidTime" to environment.config.tokenValidTime.toString(),
+                    "algorithm" to environment.config.algorithm,
                 )
                 call.respond(conf.toString())
             }
