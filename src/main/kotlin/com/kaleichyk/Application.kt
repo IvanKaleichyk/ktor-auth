@@ -22,18 +22,21 @@ import io.ktor.application.install
 import io.ktor.features.CallLogging
 import io.ktor.features.StatusPages
 import io.ktor.http.HttpStatusCode
+import io.ktor.request.httpMethod
 import io.ktor.response.respond
 import io.ktor.routing.routing
 import io.ktor.server.netty.EngineMain
 import javax.security.sasl.AuthenticationException
 import org.koin.ktor.ext.Koin
 import org.koin.ktor.ext.inject
+import org.slf4j.event.Level
 
 fun main(args: Array<String>) = EngineMain.main(args)
 
 fun Application.module() {
     configureDI()
     configureStatusPage()
+    configureLogger()
     configureSerialization()
     configureSecurity(inject<AuthController>().value, inject<JwtVerifierService>().value, realm)
 
@@ -54,7 +57,6 @@ fun Application.configureStatusPage() {
 }
 
 fun Application.configureDI() {
-    install(CallLogging)
     install(Koin) {
         modules(
             utilsModule,
@@ -63,5 +65,17 @@ fun Application.configureDI() {
             interactorModule,
             controllerModule,
         )
+    }
+}
+
+fun Application.configureLogger() {
+    install(CallLogging) {
+        level = Level.DEBUG
+        format { call ->
+            val status = call.response.status()
+            val httpMethod = call.request.httpMethod.value
+            val userAgent = call.request.headers["User-Agent"]
+            "Status: $status, HTTP method: $httpMethod, User agent: $userAgent"
+        }
     }
 }

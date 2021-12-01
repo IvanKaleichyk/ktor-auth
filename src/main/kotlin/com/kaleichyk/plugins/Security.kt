@@ -28,11 +28,11 @@ fun Application.configureSecurity(controller: AuthController, verifier: JwtVerif
 
     routing {
         route("auth") {
-            post("login") { user: UserAuth ->
+            post("/login") { user: UserAuth ->
                 val response = controller.login(user)
                 call.respond(response)
             }
-            post("refresh") { body: TokenRequest ->
+            post("/refresh") { body: TokenRequest ->
                 val response = controller.refresh(body.token)
                 call.respond(response)
             }
