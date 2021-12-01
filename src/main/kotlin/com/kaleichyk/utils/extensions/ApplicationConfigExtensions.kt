@@ -16,6 +16,8 @@ val Application.issuer get() = environment.config.issuer
 
 val Application.subject get() = environment.config.subject
 
+val Application.realm get() = environment.config.realm
+
 val Application.tokenValidTime get() = environment.config.tokenValidTime
 
 val ApplicationConfig.algorithm: Algorithm

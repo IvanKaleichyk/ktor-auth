@@ -26,6 +26,12 @@ dependencies {
     implementation("io.ktor:ktor-server-netty:$ktor_version")
     implementation("io.ktor:ktor-gson:$ktor_version")
 
+//   For hash Password
+    implementation("org.mindrot:jbcrypt:0.4")
+
+    val koinVersion = "3.1.4"
+    implementation("io.insert-koin:koin-ktor:$koinVersion")
+
     implementation("ch.qos.logback:logback-classic:$logback_version")
     testImplementation("io.ktor:ktor-server-tests:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")

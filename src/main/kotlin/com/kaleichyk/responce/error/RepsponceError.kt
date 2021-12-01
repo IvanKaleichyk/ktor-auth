@@ -2,15 +2,15 @@ package com.kaleichyk.responce.error
 
 import com.kaleichyk.responce.ResponseBody
 
-sealed class ErrorResponseBody(val errorMessage: String) : ResponseBody {
+sealed class ErrorResponseBody(open val errorMessage: String) : ResponseBody {
 
-    object AuthorizationFailed : ErrorResponseBody("AuthorizationFailed")
+    class AuthorizationFailed(errorMessage: String = "AuthorizationFailed") : ErrorResponseBody(errorMessage)
 
-    object InputInvalid : ErrorResponseBody("InputInvalid")
+    class InputInvalid(errorMessage: String = "InputInvalid") : ErrorResponseBody(errorMessage)
 
-    object ResourceAlreadyExists : ErrorResponseBody("Resource already exists")
+    class ResourceAlreadyExists(errorMessage: String = "Resource already exists") : ErrorResponseBody(errorMessage)
 
-    object InternalServer : ErrorResponseBody("Internal server error occurred")
+    class InternalServer(errorMessage: String = "Internal server error occurred") : ErrorResponseBody(errorMessage)
 
-    object Unknown : ErrorResponseBody("UnknownError")
+    class Unknown(errorMessage: String = "UnknownError") : ErrorResponseBody(errorMessage)
 }
