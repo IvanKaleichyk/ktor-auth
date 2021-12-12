@@ -8,15 +8,17 @@ import com.auth0.jwt.interfaces.DecodedJWT
 import com.kaleichyk.JwtVerifierService
 import com.kaleichyk.exceptions.TokenException
 import com.kaleichyk.models.Token
+import com.kaleichyk.utils.extensions.ROLES_CLAIM
 import com.kaleichyk.utils.extensions.getLogin
 import com.kaleichyk.utils.extensions.getPassword
+import com.kaleichyk.utils.extensions.getRoles
 import java.util.*
 
 interface TokenRepository {
 
-    fun generateToken(name: String, password: String): Token
+    fun generateToken(name: String, password: String, roles: List<String>): Token
 
-    fun generateRefreshToken(name: String, password: String): Token
+    fun generateRefreshToken(name: String, password: String, roles: List<String>): Token
 
     fun isTokenValid(token: String): Boolean
 
@@ -37,15 +39,17 @@ class TokenRepositoryImpl(
         const val PASSWORD_CLAIM = "PASSWORD_CLAIM"
     }
 
-    override fun generateToken(name: String, password: String): Token = buildToken {
+    override fun generateToken(name: String, password: String, roles: List<String>): Token = buildToken {
         withClaim(NAME_CLAIM, name)
         withClaim(PASSWORD_CLAIM, password)
+        withClaim(ROLES_CLAIM, roles)
         withExpiresAt(tokenExpiresAt)
     }
 
-    override fun generateRefreshToken(name: String, password: String): Token = buildToken {
+    override fun generateRefreshToken(name: String, password: String, roles: List<String>): Token = buildToken {
         withClaim(NAME_CLAIM, name)
         withClaim(PASSWORD_CLAIM, password)
+        withClaim(ROLES_CLAIM, roles)
     }
 
     override fun isTokenValid(token: String) =
@@ -66,7 +70,8 @@ class TokenRepositoryImpl(
         tryGetDecodedJWT(refreshToken)?.let {
             val login = it.getLogin()
             val password = it.getPassword()
-            return generateToken(login, password)
+            val roles = it.getRoles()
+            return generateToken(login, password, roles)
         } ?: throw TokenException.NotValid
     }
 

@@ -22,9 +22,13 @@ fun Application.configureSecurity(controller: AuthController, verifier: JwtVerif
         jwt {
             this.realm = realm
             verifier(verifier.verifier)
-            validate { validateCredential(it) }
+            validate {
+                validateCredential(it)
+            }
         }
     }
+
+    install(RoleBasedAuthorization)
 
     routing {
         route("auth") {

@@ -18,7 +18,8 @@ data class UserAuth(
     val password: String,
     @SerializedName("repeat_password")
     val repeatPassword: String,
-    val age: Int
+    val age: Int,
+    val roles: List<String> = emptyList()
 ) {
 
     fun toUser() = User(id, name, PasswordHasher.hash(password), age)

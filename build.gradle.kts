@@ -29,6 +29,8 @@ dependencies {
 //   For hash Password
     implementation("org.mindrot:jbcrypt:0.4")
 
+    implementation("org.slf4j:slf4j-api:1.7.32")
+
     val koinVersion = "3.1.4"
     implementation("io.insert-koin:koin-ktor:$koinVersion")
 

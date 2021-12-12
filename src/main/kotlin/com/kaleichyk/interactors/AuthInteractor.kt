@@ -25,8 +25,8 @@ class AuthInteractorImpl(
     override fun login(user: UserAuth) = user.run {
         userRepository.addUser(toUser())
         Tokens(
-            repository.generateToken(name, password),
-            repository.generateRefreshToken(name, password)
+            repository.generateToken(name, password, user.roles),
+            repository.generateRefreshToken(name, password, user.roles)
         )
     }
 
